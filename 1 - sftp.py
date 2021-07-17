@@ -9,22 +9,21 @@ import paramiko
 import datetime as dt
 import os
 
-# Avoir la date du jour sous format YYYYMMDD
+# Date format in YYYYMMDD
 now = dt.datetime.now()
 currDate = now.strftime("%Y%m%d")
-# Using to test currDate = '20170125'
 
 #Set different paths
 workingDir = os.path.join('WORK_PATH')
 cwd = os.getcwd()
 
-#Création des logs
+#Create log data
 logFileDir = os.path.join(workingDir,'Logs')
-logName = r'paramiko_purge_%s.log' % currDate
+logName = r'paramiko_%s.log' % currDate
 logFile = os.path.join(logFileDir,logName)
 paramiko.util.log_to_file(logFile)
 
-# Déclaration du host / Open transport
+# Network parameters
 host = "X.X.X.X"
 port = 22
 transport = paramiko.Transport((host,port))
