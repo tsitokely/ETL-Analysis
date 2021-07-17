@@ -1,5 +1,5 @@
 @echo off
-title Turnover of customers
+title Initial script
 color e
 
 echo ..........Please press enter to continue..........
@@ -12,64 +12,64 @@ echo  ------------------------
 
 
 echo Getting Data started: %date% %time% 
-cd WORK_PATH\Purge\scripts
+cd WORK_PATH\scripts
 python "1 - sftp.py"
 
 echo  ------------------------
-echo   Getting Data completed
+echo   Data download completed
 echo  ------------------------ 
 
 
-echo Get Finished: %date% %time%
+echo Download finished on: %date% %time%
 
 echo  ------------------------
-echo   Insert data in SQLite  
+echo   Insert data in SQLite DB 
 echo  ------------------------ 
 
 
-echo Insert started: %date% %time%
-cd WORK_PATH\Purge\scripts
+echo Insert started on: %date% %time%
+cd WORK_PATH\scripts
 python "2 - insert_data.py"
-cd WORK_PATH\Purge
-sqlite3 suivi_purge.db < insert_purge.sql
+cd WORK_PATH\Data
+sqlite3 data.db < insert_query.sql
 
 echo -----------------------
-echo  Insert task completed 
+echo  DB load completed 
 echo -----------------------
 
 
-echo Insert Finished: %date% %time%
-cd WORK_PATH\Purge
-del insert_purge.sql
+echo DB load completed on: %date% %time%
+cd WORK_PATH\Data
+del insert_query.sql
 
 echo --------------------------
-echo  Analyze data in Database 
+echo  Analyze data in DB 
 echo -------------------------- 
 
 
-echo Analysis Started: %date% %time%
-cd WORK_PATH\Purge\scripts
-python "3 - priority_purge.py"
+echo Analysis Started on: %date% %time%
+cd WORK_PATH\scripts
+python "3 - analysis.py"
 
 echo -------------------------
 echo  Analysis task completed 
 echo -------------------------
  
-echo Analysis Finished: %date% %time%
+echo Analysis Finished on: %date% %time%
 
 echo -------------------------
 echo Moving files to directories
 echo -------------------------
-cd WORK_PATH\Purge\Result
-move result_purge_Query*.csv Result_Query
-move result_purge_Flag*.csv Result_Flag
-move log_priority*.txt Log_priorite
-cd WORK_PATH\Purge
+cd WORK_PATH\Result
+move result_data*.csv Result_Data
+move result_data_Flag*.csv Result_Flag
+move log*.txt Logs
+cd WORK_PATH\Data
 move *.csv dumps
 
 echo -------------------------
 
 echo ...Go to results folder to see the files...
 pause > nul
-echo Script Finished: %date% %time%
+echo All tasks completed on: %date% %time%
 
